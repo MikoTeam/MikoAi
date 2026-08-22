@@ -8,45 +8,27 @@
     <meta name="theme-color" content="#111820">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- ========================================== -->
+    <!-- A-ADS SCRIPT (POPUNDER) - TARUH DI HEAD -->
+    <!-- GANTI ZONE ID SESUAI AKUN KAMU -->
+    <!-- ========================================== -->
+    <script type="text/javascript">
+        (function() {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = 'https://a-ads.com/popunder/2453009.js';
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+        })();
+    </script>
+    
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         html, body { height:100%; overflow:hidden; background:#0b0e14; }
         body { display:flex; justify-content:center; align-items:center; }
         .app-wrapper { width:100%; height:100%; display:flex; justify-content:center; align-items:center; }
-        
-        /* ========== MODAL IKLAN ========== */
-        #adsModal .modal-box {
-            max-width: 380px;
-            padding: 16px;
-        }
-        #adsModal .modal-box iframe {
-            width: 100%;
-            height: 250px;
-            min-height: 250px;
-            border-radius: 12px;
-            background: #0f172a;
-            border: 1px solid #2a3a50;
-        }
-        #adsModal .modal-box #closeAdsBtn {
-            background: #6366f1;
-            border: none;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 12px;
-            font-size: 14px;
-            width: 100%;
-        }
-        #adsModal .modal-box #closeAdsBtn:hover {
-            background: #4f46e5;
-        }
-        #adsModal .modal-box .loading-text {
-            color: #8896b0;
-            font-size: 12px;
-            padding: 20px 0;
-        }
     </style>
 </head>
 <body>
@@ -196,26 +178,6 @@
             <button class="btn-close-modal" id="modalCloseBtn">Tutup</button>
             <button class="btn-manual-claim" id="modalManualBtn"><i class="fab fa-whatsapp"></i> Akun Manual</button>
         </div>
-    </div>
-</div>
-
-<!-- MODAL IKLAN A-ADS -->
-<div class="modal-overlay" id="adsModal">
-    <div class="modal-box">
-        <h3 style="font-size:15px; margin-bottom:4px;">📺 Tonton Iklan</h3>
-        <p style="font-size:12px; color:#8896b0; margin-bottom:10px;">Tonton iklan sebentar untuk dapatkan <strong style="color:#fbbf24;">+1 Coin</strong></p>
-        
-        <!-- A-ADS IFRAME - UKURAN 300x250 -->
-        <div id="frame" style="width:100%; margin:auto; position:relative;">
-            <iframe data-aa='2453009' 
-                    src='//acceptable.a-ads.com/2453009/?size=300x250'
-                    style='border:0; padding:0; width:100%; height:250px; overflow:hidden; display:block; margin:auto; border-radius:12px; background:#0f172a; border:1px solid #2a3a50;'>
-            </iframe>
-        </div>
-        
-        <button id="closeAdsBtn" style="background:#6366f1; border:none; color:white; padding:10px 24px; border-radius:40px; font-weight:600; cursor:pointer; margin-top:12px; font-size:14px; width:100%;">
-            ✅ Tutup & Ambil Coin
-        </button>
     </div>
 </div>
 
