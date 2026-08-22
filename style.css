@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 html, body {
     height: 100%;
@@ -27,8 +27,8 @@ body {
 .app-container {
     width: 100%;
     max-width: 420px;
-    height: 100vh;
-    max-height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
     background: #111820;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
     overflow: hidden;
@@ -54,6 +54,7 @@ body {
     background: linear-gradient(135deg, #a855f7, #6366f1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 .badge-group {
     display: flex;
@@ -138,6 +139,7 @@ body {
     justify-content: space-around;
     padding: 8px 0 12px;
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     flex-shrink: 0;
     z-index: 50;
     min-height: 54px;
@@ -468,6 +470,8 @@ h3 span {
     text-transform: uppercase;
     letter-spacing: 0.3px;
 }
+
+/* ========== HISTORY ========== */
 .history-box {
     background: #141d2b;
     border-radius: 16px;
@@ -684,16 +688,6 @@ h3 span {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
-@media (max-width: 480px) {
-    .toast {
-        white-space: normal;
-        max-width: 90%;
-        text-align: center;
-        font-size: 11px;
-        padding: 6px 14px;
-        bottom: 60px;
-    }
-}
 
 /* ========== MODAL ========== */
 .modal-overlay {
@@ -833,36 +827,12 @@ h3 span {
 }
 
 /* ========== RESPONSIVE ========== */
-@media (max-width: 380px) {
+@media (max-width: 480px) {
     .app-container {
+        border-radius: 0;
         max-width: 100%;
-    }
-    .header .logo {
-        font-size: 14px;
-    }
-    .coin-badge {
-        font-size: 10px;
-        padding: 2px 8px;
-    }
-    .streak-badge {
-        font-size: 9px;
-        padding: 2px 6px;
-    }
-    .farm-area h2 {
-        font-size: 14px;
-    }
-    .farm-btn {
-        font-size: 12px;
-        padding: 10px 14px;
-    }
-    .store-item .name {
-        font-size: 10px;
-    }
-    .store-item .price {
-        font-size: 9px;
-    }
-    .page {
-        padding: 10px 10px 70px;
+        height: 100dvh;
+        max-height: 100dvh;
     }
     .bottom-nav {
         padding: 6px 0 10px;
@@ -874,18 +844,125 @@ h3 span {
     .nav-item span {
         font-size: 8px;
     }
+    .page {
+        padding: 10px 10px 70px;
+    }
+    .store-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    .app-logo-item {
+        flex: 1 0 calc(33.33% - 5px);
+        min-width: 50px;
+        padding: 3px 6px;
+    }
+    .app-logo-item .logo-name {
+        font-size: 9px;
+    }
+    .badge-group {
+        gap: 3px;
+    }
+    #userDisplay {
+        max-width: 50px;
+        font-size: 8px;
+    }
+    .modal-box {
+        padding: 16px 12px;
+    }
+    .header {
+        padding: 10px 12px 6px;
+        min-height: 44px;
+    }
+    .header .logo {
+        font-size: 15px;
+    }
+    .coin-badge {
+        font-size: 10px;
+        padding: 2px 8px;
+    }
+    .streak-badge {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
+    .farm-area {
+        padding: 16px 12px;
+    }
+    .farm-area h2 {
+        font-size: 15px;
+    }
+    .farm-btn {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+    .store-item {
+        padding: 8px 6px;
+    }
+    .store-item .name {
+        font-size: 10px;
+    }
+    .store-item .price {
+        font-size: 9px;
+    }
     .profile-name {
-        font-size: 14px;
+        font-size: 15px;
     }
     .stat-value {
         font-size: 18px;
+    }
+    .toast {
+        white-space: normal;
+        max-width: 90%;
+        text-align: center;
+        font-size: 11px;
+        padding: 6px 14px;
+        bottom: 60px;
+    }
+}
+
+@media (max-width: 360px) {
+    .header .logo {
+        font-size: 13px;
+    }
+    .coin-badge {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
+    .streak-badge {
+        font-size: 8px;
+        padding: 2px 5px;
+    }
+    .farm-area h2 {
+        font-size: 13px;
+    }
+    .farm-btn {
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+    .store-item .name {
+        font-size: 9px;
+    }
+    .store-item .price {
+        font-size: 8px;
+    }
+    .page {
+        padding: 8px 8px 60px;
+    }
+    .bottom-nav {
+        padding: 4px 0 8px;
+        min-height: 42px;
+    }
+    .nav-item i {
+        font-size: 14px;
+    }
+    .nav-item span {
+        font-size: 7px;
     }
 }
 
 @media (min-width: 421px) {
     .app-container {
         border-radius: 24px;
-        max-height: 800px;
+        max-height: 820px;
         aspect-ratio: 9 / 16;
     }
     .bottom-nav {
