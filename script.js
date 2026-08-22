@@ -124,37 +124,16 @@ function updateStats() {
     if (statTodayFarming) statTodayFarming.textContent = todayCount;
     if (statTotalFarming) statTotalFarming.textContent = totalFarming;
     
-    // Member since
-    if (statMemberSince) {
-        let memberDate = null;
-        
-        if (user.createdAt) {
-            if (typeof user.createdAt === 'string') {
-                memberDate = new Date(user.createdAt);
-            } else if (typeof user.createdAt === 'number') {
-                memberDate = new Date(user.createdAt);
-            } else if (user.createdAt && typeof user.createdAt === 'object' && user.createdAt.seconds) {
-                memberDate = new Date(user.createdAt.seconds * 1000);
-            } else if (user.createdAt instanceof Date) {
-                memberDate = user.createdAt;
-            }
-        }
-        
-        if (!memberDate || isNaN(memberDate.getTime())) {
-            if (currentUser && currentUser.metadata && currentUser.metadata.creationTime) {
-                memberDate = new Date(currentUser.metadata.creationTime);
-            }
-        }
-        
-        if (!memberDate || isNaN(memberDate.getTime())) {
-            memberDate = new Date();
-        }
-        
-        statMemberSince.textContent = memberDate.toLocaleDateString('id-ID', {
+    // Member since (tanggal daftar)
+    if (statMemberSince && user.createdAt) {
+        const created = new Date(user.createdAt);
+        statMemberSince.textContent = created.toLocaleDateString('id-ID', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         });
+    } else if (statMemberSince) {
+        statMemberSince.textContent = 'Baru saja';
     }
 }
 
@@ -439,45 +418,29 @@ dailyClaimBtn.addEventListener('click', function() {
 });
 
 // ============================================================
-// FARMING + IKLAN A-ADS (POPUNDER)
+// FARM
 // ============================================================
 farmBtn.addEventListener('click', function(e) {
     if (this.disabled) return;
-    
     this.disabled = true;
     this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memutar iklan...';
     
-    // ============================================
-    // 🔥 PANGGIL POPUNDER A-ADS
-    // ============================================
-    try {
-        // Buka popunder A-ADS (dari script di head)
-        window.open('https://a-ads.com/popunder/2453009', '_blank');
-    } catch (error) {
-        console.log('Iklan gagal dimuat:', error);
-    }
-    
-    // TUNGGU IKLAN SELESAI (2 detik)
     setTimeout(() => {
-        // TAMBAH COIN
         DB.user.coinBalance += 1;
         updateCoinUI();
         addHistory('Farming', 1, 'plus');
         showToast('✨ +1 Coin berhasil!');
         
-        // EFEK PARTIKEL
         const rect = this.getBoundingClientRect();
         spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2, 15);
         
-        // ENABLE KEMBALI
         this.disabled = false;
         this.innerHTML = '<i class="fas fa-play-circle"></i> Tonton Iklan & Farming';
         
         const badge = document.querySelector('.coin-badge');
         badge.style.transform = 'scale(1.15)';
         setTimeout(() => badge.style.transform = 'scale(1)', 150);
-        
-    }, 2000);
+    }, 1800);
 });
 
 // ============================================================
@@ -664,7 +627,7 @@ showLoginBtn.addEventListener('click', () => {
 });
 
 // ============================================================
-// REGISTER (EMAIL/PASSWORD)
+// REGISTER (EMAIL/PASSWORD) - COIN MULAI 0
 // ============================================================
 registerBtn.addEventListener('click', async () => {
     const name = registerName.value.trim();
@@ -706,7 +669,7 @@ registerBtn.addEventListener('click', async () => {
         await db.collection('users').doc(user.uid).set({
             name: name,
             email: email,
-            coinBalance: 0,
+            coinBalance: 0,  // MULAI DARI 0
             streak: 0,
             lastDailyClaim: Date.now() - 86400000,
             history: [],
@@ -843,7 +806,7 @@ auth.onAuthStateChanged(async (user) => {
             await userDocRef.set({
                 name: user.displayName || user.email.split('@')[0],
                 email: user.email,
-                coinBalance: 0,
+                coinBalance: 0,  // MULAI DARI 0
                 streak: 0,
                 lastDailyClaim: Date.now() - 86400000,
                 history: [],
