@@ -13,6 +13,39 @@
         html, body { height:100%; overflow:hidden; background:#0b0e14; }
         body { display:flex; justify-content:center; align-items:center; }
         .app-wrapper { width:100%; height:100%; display:flex; justify-content:center; align-items:center; }
+        
+        /* ========== MODAL IKLAN ========== */
+        #adsModal .modal-box {
+            max-width: 380px;
+            padding: 16px;
+        }
+        #adsModal .modal-box iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            background: #0f172a;
+            border: 1px solid #2a3a50;
+        }
+        #adsModal .modal-box #closeAdsBtn {
+            background: #6366f1;
+            border: none;
+            color: white;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 13px;
+            width: 100%;
+        }
+        #adsModal .modal-box #closeAdsBtn:hover {
+            background: #4f46e5;
+        }
+        #adsModal .modal-box .loading-text {
+            color: #8896b0;
+            font-size: 12px;
+            padding: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -23,7 +56,7 @@
             <div class="logo"><i class="fas fa-bolt" style="color:#a855f7;"></i> MikoCuan</div>
             <div class="badge-group">
                 <span id="userDisplay" style="font-size:11px; color:#8896b0; display:none;">Miko</span>
-                <button id="logoutBtn" style="background:#1f2a3a; border:1px solid #ef4444; color:#ef4444; padding:4px 10px; border-radius:40px; font-size:10px; cursor:pointer;">Logout</button>
+                <button id="logoutBtn" style="background:#1f2a3a; border:1px solid #ef4444; color:#ef4444; padding:4px 10px; border-radius:40px; font-size:10px; cursor:pointer; display:none;">Logout</button>
                 <div class="streak-badge"><i class="fas fa-fire"></i> <span id="streakCount">0</span>d</div>
                 <div class="coin-badge"><i class="fas fa-coins"></i> <span id="headerCoinCount">0</span></div>
             </div>
@@ -37,19 +70,6 @@
                 <h2>Farming Coin</h2>
                 <p>Klik tombol, tonton iklan, dapatkan <strong>+1 Coin</strong></p>
                 <button class="farm-btn" id="farmBtn"><i class="fas fa-play-circle"></i> Tonton Iklan & Farming</button>
-                
-                <!-- ========================================== -->
-                <!-- IKLAN A-ADS (Muncul pas tombol diklik) -->
-                <!-- ========================================== -->
-                <div id="adsContainer" style="display:none; margin-top:12px; width:100%;">
-                    <div id="frame" style="width:100%; margin:auto; position:relative; z-index:99998;">
-                        <iframe data-aa='2453009' 
-                                src='//acceptable.a-ads.com/2453009/?size=Adaptive'
-                                style='border:0; padding:0; width:100%; height:auto; overflow:hidden; display:block; margin:auto; border-radius:12px;'>
-                        </iframe>
-                    </div>
-                </div>
-
                 <div class="daily-bonus-box">
                     <div class="bonus-text"><i class="fas fa-gift" style="color:#f59e0b;"></i> Daily Bonus: <strong id="dailyBonusAmount">+5 Coin</strong> <span id="dailyCountdown"></span></div>
                     <button class="daily-claim-btn" id="dailyClaimBtn">Claim</button>
@@ -175,6 +195,26 @@
             <button class="btn-close-modal" id="modalCloseBtn">Tutup</button>
             <button class="btn-manual-claim" id="modalManualBtn"><i class="fab fa-whatsapp"></i> Akun Manual</button>
         </div>
+    </div>
+</div>
+
+<!-- MODAL IKLAN A-ADS -->
+<div class="modal-overlay" id="adsModal">
+    <div class="modal-box">
+        <h3 style="font-size:15px; margin-bottom:4px;">📺 Tonton Iklan</h3>
+        <p style="font-size:12px; color:#8896b0; margin-bottom:10px;">Tonton iklan sebentar untuk dapatkan <strong style="color:#fbbf24;">+1 Coin</strong></p>
+        
+        <!-- A-ADS IFRAME -->
+        <div id="frame" style="width:100%; margin:auto; position:relative;">
+            <iframe data-aa='2453009' 
+                    src='//acceptable.a-ads.com/2453009/?size=Adaptive'
+                    style='border:0; padding:0; width:100%; height:200px; overflow:hidden; display:block; margin:auto; border-radius:12px; background:#0f172a; border:1px solid #2a3a50;'>
+            </iframe>
+        </div>
+        
+        <button id="closeAdsBtn" style="background:#6366f1; border:none; color:white; padding:10px 24px; border-radius:40px; font-weight:600; cursor:pointer; margin-top:12px; font-size:14px; width:100%;">
+            ✅ Tutup & Ambil Coin
+        </button>
     </div>
 </div>
 
