@@ -16,12 +16,13 @@
         
         /* ========== MODAL IKLAN ========== */
         #adsModal .modal-box {
-            max-width: 380px;
-            padding: 16px;
+            max-width: 400px;
+            padding: 20px;
         }
         #adsModal .modal-box iframe {
             width: 100%;
-            height: 200px;
+            height: 250px;
+            min-height: 250px;
             border-radius: 12px;
             background: #0f172a;
             border: 1px solid #2a3a50;
@@ -30,21 +31,16 @@
             background: #6366f1;
             border: none;
             color: white;
-            padding: 8px 24px;
+            padding: 12px 24px;
             border-radius: 40px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
-            font-size: 13px;
+            margin-top: 14px;
+            font-size: 15px;
             width: 100%;
         }
         #adsModal .modal-box #closeAdsBtn:hover {
             background: #4f46e5;
-        }
-        #adsModal .modal-box .loading-text {
-            color: #8896b0;
-            font-size: 12px;
-            padding: 20px 0;
         }
     </style>
 </head>
@@ -201,18 +197,18 @@
 <!-- MODAL IKLAN A-ADS -->
 <div class="modal-overlay" id="adsModal">
     <div class="modal-box">
-        <h3 style="font-size:15px; margin-bottom:4px;">📺 Tonton Iklan</h3>
-        <p style="font-size:12px; color:#8896b0; margin-bottom:10px;">Tonton iklan sebentar untuk dapatkan <strong style="color:#fbbf24;">+1 Coin</strong></p>
+        <h3 style="font-size:16px; margin-bottom:4px; color:#e0e6f0;">📺 Tonton Iklan</h3>
+        <p style="font-size:13px; color:#8896b0; margin-bottom:12px;">Tonton iklan sebentar untuk dapatkan <strong style="color:#fbbf24;">+1 Coin</strong></p>
         
-        <!-- A-ADS IFRAME -->
-        <div id="frame" style="width:100%; margin:auto; position:relative;">
+        <!-- A-ADS IFRAME - UKURAN 300x250 -->
+        <div id="frame" style="width:100%; min-height:250px; margin:auto; position:relative; background:#0f172a; border-radius:12px; border:1px solid #2a3a50; padding:10px;">
             <iframe data-aa='2453009' 
-                    src='//acceptable.a-ads.com/2453009/?size=Adaptive'
-                    style='border:0; padding:0; width:100%; height:200px; overflow:hidden; display:block; margin:auto; border-radius:12px; background:#0f172a; border:1px solid #2a3a50;'>
+                    src='//acceptable.a-ads.com/2453009/?size=300x250'
+                    style='border:0; padding:0; width:100%; height:250px; overflow:hidden; display:block; margin:auto; border-radius:8px; background:#0f172a;'>
             </iframe>
         </div>
         
-        <button id="closeAdsBtn" style="background:#6366f1; border:none; color:white; padding:10px 24px; border-radius:40px; font-weight:600; cursor:pointer; margin-top:12px; font-size:14px; width:100%;">
+        <button id="closeAdsBtn" style="background:#6366f1; border:none; color:white; padding:12px 24px; border-radius:40px; font-weight:600; cursor:pointer; margin-top:14px; font-size:15px; width:100%;">
             ✅ Tutup & Ambil Coin
         </button>
     </div>
