@@ -14,7 +14,7 @@
         body { display:flex; justify-content:center; align-items:center; }
         .app-wrapper { width:100%; height:100%; display:flex; justify-content:center; align-items:center; }
         
-        /* ========== OVERLAY SYARAT (SEBELUM LOGIN) ========== */
+        /* ========== OVERLAY SYARAT ========== */
         #termsOverlay {
             position: fixed;
             top: 0;
@@ -65,7 +65,7 @@
             font-size: 13px;
             color: #8896b0;
             line-height: 1.6;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
         #termsOverlay .terms-box .terms-text {
             background: #0f172a;
@@ -74,11 +74,11 @@
             text-align: left;
             font-size: 12px;
             color: #5a6a84;
-            max-height: 120px;
+            max-height: 140px;
             overflow-y: auto;
             margin-bottom: 16px;
             border: 1px solid #1f2a3a;
-            line-height: 1.5;
+            line-height: 1.6;
         }
         #termsOverlay .terms-box .terms-text::-webkit-scrollbar {
             width: 2px;
@@ -220,13 +220,15 @@
             <div class="farm-area">
                 <i class="fas fa-coins coin-icon-big"></i>
                 <h2>Farming Coin</h2>
-                <p>Klik tombol di bawah untuk farming. <strong>Iklan akan muncul di bawah</strong> setelah tombol diklik.</p>
+                <p>Klik tombol di bawah, tonton iklan, dapatkan <strong>+1 Coin</strong></p>
                 
                 <button class="farm-btn" id="farmBtn">
-                    <i class="fas fa-play-circle"></i> Klik untuk Farming (+1 Coin)
+                    <i class="fas fa-play-circle"></i> Tonton Iklan & Farming
                 </button>
                 
-                <!-- IKLAN A-ADS -->
+                <!-- ========================================== -->
+                <!-- IKLAN A-ADS (MUNCUL SETELAH SETUJU)         -->
+                <!-- ========================================== -->
                 <div id="adsBanner">
                     <div class="ads-box">
                         <div id="frame" style="width:100%; margin:auto; position:relative; z-index:1;">
@@ -236,7 +238,7 @@
                             </iframe>
                         </div>
                     </div>
-                    <div class="countdown-text" id="adsCountdown">⏳ Klik tombol di bawah untuk farming!</div>
+                    <div class="countdown-text" id="adsCountdown">⏳ Klik tombol "Tonton Iklan & Farming" untuk mulai</div>
                     <div class="ads-actions">
                         <button class="btn-claim" id="claimCoinBtn" disabled>⏳ Tunggu...</button>
                         <button class="btn-skip" id="skipAdBtn">✕ Lewati</button>
@@ -354,9 +356,9 @@
     <div class="terms-box">
         <div class="icon">⚠️</div>
         <h2>Syarat & Ketentuan</h2>
-        <p>Sebelum masuk ke MikoCuan, baca dan setujui syarat berikut:</p>
+        <p>Sebelum masuk ke MikoCuan, baca dan setujui semua perkara berikut:</p>
         <div class="terms-text">
-            <strong>📌 Dengan menyetujui, Anda:</strong><br>
+            <strong>⭐ Dengan menyetujui, Anda:</strong><br>
             • Menyetujui bahwa iklan akan ditampilkan di halaman utama.<br>
             • Mendapatkan <strong>+1 Coin</strong> setiap kali menonton iklan.<br>
             • Menyetujui kebijakan privasi dan penggunaan data.<br>
