@@ -6,6 +6,7 @@ let currentProduct = null;
 let currentUser = null;
 let userDocRef = null;
 let isSaving = false;
+let isFarming = false;
 
 // ============================================================
 // DOM REFS
@@ -70,6 +71,39 @@ const statTotalFarming = document.getElementById('statTotalFarming');
 const statMemberSince = document.getElementById('statMemberSince');
 
 // ============================================================
+// POPUP SYARAT
+// ============================================================
+const termsOverlay = document.getElementById('termsOverlay');
+const termsAgreeBtn = document.getElementById('termsAgreeBtn');
+const termsDeclineBtn = document.getElementById('termsDeclineBtn');
+
+// Cek localStorage
+if (localStorage.getItem('termsAccepted') === 'true') {
+    if (termsOverlay) termsOverlay.classList.add('hidden');
+}
+
+// SETUJU & MASUK
+if (termsAgreeBtn) {
+    termsAgreeBtn.addEventListener('click', function() {
+        if (termsOverlay) termsOverlay.classList.add('hidden');
+        localStorage.setItem('termsAccepted', 'true');
+        if (loginModal) loginModal.classList.add('show');
+        showToast('✅ Syarat disetujui! Silakan login.', 2000);
+    });
+}
+
+// TOLAK
+if (termsDeclineBtn) {
+    termsDeclineBtn.addEventListener('click', function() {
+        if (termsOverlay) termsOverlay.classList.add('hidden');
+        showToast('❌ Anda menolak syarat. Tidak bisa melanjutkan.', 2000);
+        setTimeout(() => {
+            if (termsOverlay) termsOverlay.classList.remove('hidden');
+        }, 3000);
+    });
+}
+
+// ============================================================
 // RENDER APP LOGOS
 // ============================================================
 function renderAppLogos() {
@@ -87,7 +121,6 @@ function renderAppLogos() {
 function updateStats() {
     const now = new Date();
     
-    // Tanggal & Jam
     const dateStr = now.toLocaleDateString('id-ID', {
         weekday: 'long',
         day: 'numeric',
@@ -103,7 +136,6 @@ function updateStats() {
     if (statDate) statDate.textContent = dateStr;
     if (statTime) statTime.textContent = timeStr;
     
-    // Total farming hari ini
     const user = DB.user;
     const today = new Date().toDateString();
     let todayCount = 0;
@@ -124,16 +156,32 @@ function updateStats() {
     if (statTodayFarming) statTodayFarming.textContent = todayCount;
     if (statTotalFarming) statTotalFarming.textContent = totalFarming;
     
-    // Member since (tanggal daftar)
-    if (statMemberSince && user.createdAt) {
-        const created = new Date(user.createdAt);
-        statMemberSince.textContent = created.toLocaleDateString('id-ID', {
+    if (statMemberSince) {
+        let memberDate = null;
+        if (user.createdAt) {
+            if (typeof user.createdAt === 'string') {
+                memberDate = new Date(user.createdAt);
+            } else if (typeof user.createdAt === 'number') {
+                memberDate = new Date(user.createdAt);
+            } else if (user.createdAt && typeof user.createdAt === 'object' && user.createdAt.seconds) {
+                memberDate = new Date(user.createdAt.seconds * 1000);
+            } else if (user.createdAt instanceof Date) {
+                memberDate = user.createdAt;
+            }
+        }
+        if (!memberDate || isNaN(memberDate.getTime())) {
+            if (currentUser && currentUser.metadata && currentUser.metadata.creationTime) {
+                memberDate = new Date(currentUser.metadata.creationTime);
+            }
+        }
+        if (!memberDate || isNaN(memberDate.getTime())) {
+            memberDate = new Date();
+        }
+        statMemberSince.textContent = memberDate.toLocaleDateString('id-ID', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         });
-    } else if (statMemberSince) {
-        statMemberSince.textContent = 'Baru saja';
     }
 }
 
@@ -418,29 +466,86 @@ dailyClaimBtn.addEventListener('click', function() {
 });
 
 // ============================================================
-// FARM
+// FARMING + IKLAN A-ADS (Klik Iklan → +1 Coin)
 // ============================================================
+const adsBanner = document.getElementById('adsBanner');
+const countdownText = document.getElementById('adsCountdown');
+const claimBtn = document.getElementById('claimCoinBtn');
+const skipBtn = document.getElementById('skipAdBtn');
+
+// Farming Button
 farmBtn.addEventListener('click', function(e) {
-    if (this.disabled) return;
-    this.disabled = true;
-    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memutar iklan...';
+    if (this.disabled || isFarming) return;
     
-    setTimeout(() => {
+    isFarming = true;
+    this.disabled = true;
+    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+    
+    // Tampilkan iklan
+    if (adsBanner) {
+        adsBanner.classList.add('show');
+        adsBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Reset countdown
+    let countdown = 3;
+    claimBtn.disabled = true;
+    claimBtn.textContent = '⏳ Tunggu...';
+    countdownText.textContent = '⏳ Tunggu ' + countdown + ' detik...';
+    
+    // Countdown
+    const countdownInterval = setInterval(() => {
+        countdown -= 1;
+        if (countdown > 0) {
+            countdownText.textContent = '⏳ Tunggu ' + countdown + ' detik...';
+        } else {
+            clearInterval(countdownInterval);
+            countdownText.textContent = '✅ Klik "Ambil Coin" untuk +1 Coin!';
+            claimBtn.disabled = false;
+            claimBtn.textContent = '✅ Ambil Coin (+1)';
+        }
+    }, 1000);
+    
+    // Tombol Ambil Coin
+    claimBtn.onclick = function() {
+        if (this.disabled) return;
+        
+        // Tambah Coin
         DB.user.coinBalance += 1;
         updateCoinUI();
         addHistory('Farming', 1, 'plus');
         showToast('✨ +1 Coin berhasil!');
         
-        const rect = this.getBoundingClientRect();
+        // Partikel
+        const rect = farmBtn.getBoundingClientRect();
         spawnParticles(rect.left + rect.width/2, rect.top + rect.height/2, 15);
         
-        this.disabled = false;
-        this.innerHTML = '<i class="fas fa-play-circle"></i> Tonton Iklan & Farming';
+        // Reset
+        isFarming = false;
+        farmBtn.disabled = false;
+        farmBtn.innerHTML = '<i class="fas fa-play-circle"></i> Klik untuk Farming (+1 Coin)';
+        countdownText.textContent = '⏳ Klik tombol di bawah untuk farming!';
+        claimBtn.disabled = true;
+        claimBtn.textContent = '✅ Ambil Coin (+1)';
+        if (adsBanner) adsBanner.classList.remove('show');
         
         const badge = document.querySelector('.coin-badge');
         badge.style.transform = 'scale(1.15)';
         setTimeout(() => badge.style.transform = 'scale(1)', 150);
-    }, 1800);
+    };
+    
+    // Tombol Skip
+    skipBtn.onclick = function() {
+        clearInterval(countdownInterval);
+        isFarming = false;
+        farmBtn.disabled = false;
+        farmBtn.innerHTML = '<i class="fas fa-play-circle"></i> Klik untuk Farming (+1 Coin)';
+        countdownText.textContent = '⏳ Klik tombol di bawah untuk farming!';
+        claimBtn.disabled = true;
+        claimBtn.textContent = '✅ Ambil Coin (+1)';
+        if (adsBanner) adsBanner.classList.remove('show');
+        showToast('⏭️ Iklan dilewati, tidak dapat coin.', 1500);
+    };
 });
 
 // ============================================================
@@ -627,7 +732,7 @@ showLoginBtn.addEventListener('click', () => {
 });
 
 // ============================================================
-// REGISTER (EMAIL/PASSWORD) - COIN MULAI 0
+// REGISTER (EMAIL/PASSWORD)
 // ============================================================
 registerBtn.addEventListener('click', async () => {
     const name = registerName.value.trim();
@@ -669,7 +774,7 @@ registerBtn.addEventListener('click', async () => {
         await db.collection('users').doc(user.uid).set({
             name: name,
             email: email,
-            coinBalance: 0,  // MULAI DARI 0
+            coinBalance: 0,
             streak: 0,
             lastDailyClaim: Date.now() - 86400000,
             history: [],
@@ -806,7 +911,7 @@ auth.onAuthStateChanged(async (user) => {
             await userDocRef.set({
                 name: user.displayName || user.email.split('@')[0],
                 email: user.email,
-                coinBalance: 0,  // MULAI DARI 0
+                coinBalance: 0,
                 streak: 0,
                 lastDailyClaim: Date.now() - 86400000,
                 history: [],
@@ -833,7 +938,6 @@ auth.onAuthStateChanged(async (user) => {
         }
         showToast(`👋 Selamat datang ${DB.user.name}!`, 2000);
         
-        // Update statistik setiap detik
         if (window._statInterval) clearInterval(window._statInterval);
         window._statInterval = setInterval(updateStats, 1000);
         
