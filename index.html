@@ -8,27 +8,50 @@
     <meta name="theme-color" content="#111820">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    
-    <!-- ========================================== -->
-    <!-- A-ADS SCRIPT (POPUNDER) - TARUH DI HEAD -->
-    <!-- GANTI ZONE ID SESUAI AKUN KAMU -->
-    <!-- ========================================== -->
-    <script type="text/javascript">
-        (function() {
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = 'https://a-ads.com/popunder/2453009.js';
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(s, x);
-        })();
-    </script>
-    
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         html, body { height:100%; overflow:hidden; background:#0b0e14; }
         body { display:flex; justify-content:center; align-items:center; }
         .app-wrapper { width:100%; height:100%; display:flex; justify-content:center; align-items:center; }
+        
+        /* ========== MODAL IKLAN ========== */
+        #adsModal .modal-box {
+            max-width: 400px;
+            padding: 20px;
+        }
+        #adsModal .modal-box iframe {
+            width: 100%;
+            height: 250px;
+            min-height: 250px;
+            border-radius: 12px;
+            background: #0f172a;
+            border: 1px solid #2a3a50;
+        }
+        #adsModal .modal-box .loading-text {
+            color: #8896b0;
+            font-size: 13px;
+            padding: 20px 0;
+        }
+        #adsModal .modal-box .countdown-text {
+            color: #fbbf24;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .modal-box .btn-close-modal {
+            background: #6366f1;
+            border: none;
+            color: white;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 13px;
+        }
+        .modal-box .btn-close-modal:hover {
+            background: #4f46e5;
+        }
     </style>
 </head>
 <body>
@@ -47,7 +70,6 @@
 
         <!-- HOME -->
         <section class="page active" id="page-home">
-            <!-- FARMING -->
             <div class="farm-area">
                 <i class="fas fa-coins coin-icon-big"></i>
                 <h2>Farming Coin</h2>
@@ -59,17 +81,14 @@
                 </div>
             </div>
 
-            <!-- PARTNER APLIKASI -->
             <div class="app-logo-section">
                 <h3><i class="fas fa-th-large" style="color:#a855f7;"></i> Partner Aplikasi</h3>
                 <div class="app-logo-grid" id="appLogoGrid"></div>
             </div>
 
-            <!-- ETALASE PREMIUM -->
             <h3><i class="fas fa-store" style="color:#a855f7;"></i> Etalase Premium <span>Tukar coin dengan produk digital</span></h3>
             <div class="store-grid" id="storeGrid"></div>
 
-            <!-- ADMIN BUTTON -->
             <div id="adminButtonContainer" style="margin-top:16px; display:none;">
                 <a href="admin.html" style="background:#ef4444; border:none; color:white; padding:12px; border-radius:40px; width:100%; font-weight:600; display:block; text-align:center; text-decoration:none;">
                     <i class="fas fa-user-shield"></i> Panel Admin
@@ -89,7 +108,6 @@
                     <div class="stat-item"><div class="stat-value" id="profileLevel">1</div><div class="stat-label">Level</div></div>
                 </div>
             </div>
-
             <div class="stats-section">
                 <h4><i class="fas fa-chart-line" style="color:#6366f1;"></i> Statistik</h4>
                 <div class="stats-grid">
@@ -100,7 +118,6 @@
                     <div class="stat-box span-2"><div class="stat-label">Member Sejak</div><div class="stat-value purple" id="statMemberSince">—</div></div>
                 </div>
             </div>
-
             <div class="history-box" id="historyBox">
                 <h4><i class="fas fa-clock"></i> Riwayat</h4>
                 <div id="historyList"><div class="history-item" style="color:#5a6a84; text-align:center; padding:12px 0;">Belum ada aktivitas</div></div>
@@ -123,7 +140,6 @@
                     <i class="fas fa-clock" style="color:#f59e0b;"></i> 
                     WD akan diproses oleh Admin
                 </div>
-
                 <div class="wd-input-group">
                     <label><i class="fas fa-coins"></i> Jumlah Coin</label>
                     <input type="number" id="wdAmount" placeholder="Minimal 500" min="500" step="1">
@@ -177,6 +193,32 @@
         <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
             <button class="btn-close-modal" id="modalCloseBtn">Tutup</button>
             <button class="btn-manual-claim" id="modalManualBtn"><i class="fab fa-whatsapp"></i> Akun Manual</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL IKLAN A-ADS (LANGSUNG MUNCUL)       -->
+<!-- ========================================== -->
+<div class="modal-overlay" id="adsModal">
+    <div class="modal-box">
+        <h3 style="font-size:16px; margin-bottom:4px; color:#e0e6f0;">📺 Tonton Iklan</h3>
+        <p style="font-size:13px; color:#8896b0; margin-bottom:12px;">Iklan akan muncul di bawah. Tutup setelah selesai untuk dapatkan <strong style="color:#fbbf24;">+1 Coin</strong></p>
+        
+        <!-- A-ADS IFRAME -->
+        <div id="frame" style="width:100%; margin:auto; position:relative; background:#0f172a; border-radius:12px; border:1px solid #2a3a50; padding:10px;">
+            <iframe data-aa='2453009' 
+                    src='//acceptable.a-ads.com/2453009/?size=300x250'
+                    style='border:0; padding:0; width:100%; height:250px; overflow:hidden; display:block; margin:auto; border-radius:8px; background:#0f172a;'>
+            </iframe>
+        </div>
+        
+        <!-- Countdown & Tombol -->
+        <div id="adsCountdown" style="margin-top:12px;">
+            <p class="countdown-text" id="countdownText">⏳ Tunggu 3 detik...</p>
+            <button id="closeAdsBtn" style="background:#6366f1; border:none; color:white; padding:10px 24px; border-radius:40px; font-weight:600; cursor:pointer; margin-top:8px; font-size:14px; width:100%; display:none;">
+                ✅ Ambil Coin
+            </button>
         </div>
     </div>
 </div>
